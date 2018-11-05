@@ -1,4 +1,4 @@
-package ignite.example;
+package com.test.message.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.test.message.model.LoginModel;
 
@@ -35,28 +37,32 @@ public class Ignite {
 
 	}
 
-	public String igniteSelectExample() {
-		String query  = ""; 
+	public List<LoginModel> igniteSelectExample() {
+		List<LoginModel> loginmodel = new ArrayList<>();
+		LoginModel login = new LoginModel();
+		int i = 0 ;
+		
 		try (Statement stmt = conn.createStatement()){
 			try (ResultSet rs = stmt.executeQuery("select * from MB_Login_test")){
 				while (rs.next()) {
-					 query += "**********************************\n"+ "id:"+rs.getString(1) 
-					+ "\nudid:"+ rs.getString(2) 
-					+ "\ntimeStamp:"+  rs.getString(3) 
-					+ "\ncif: "+  rs.getString(4)
-					+ "\nlogin_status: " +rs.getString(5) 
-					+ "\naccess_token: " +rs.getString(6)
-					+ "\nrefrest_token: " + rs.getString(7) + "\n";
-					
+					 login.setReg_id(Long.parseLong(rs.getString(1))); 
+					 login.setUdid(rs.getString(2));
+					 login.setTimestamp(rs.getString(3));
+					 login.setCif(rs.getString(5));
+					 login.setLogin_status(rs.getString(4));
+					 login.setAccess_token(rs.getString(6));
+					 login.setRefresh_token(rs.getString(7));
+					 loginmodel.add(login);
+					 //login = null;
 				}
 				
 			} catch (SQLException e) {
-				return e.getMessage();
+				e.printStackTrace();
 			}
 		} catch (SQLException e) {
-			return e.getMessage();
+			e.printStackTrace();
 		}
-		return query;		
+		return loginmodel;		
 	}
 	
 	public void igniteInsertoMbLogins (LoginModel login ) {

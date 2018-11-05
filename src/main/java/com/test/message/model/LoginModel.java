@@ -1,13 +1,27 @@
 package com.test.message.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class LoginModel {
 
 	private long reg_id;
 	private String udid;
 	private String login_status;
+	private String timestamp;
 	private String cif;
 	private String access_token;
 	private String refresh_token;
+
+	
+	
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
 
 	public long getReg_id() {
 		return reg_id;
